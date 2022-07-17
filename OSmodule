@@ -1,0 +1,132 @@
+#!/usr/bin/python3
+import os
+import datetime
+from bytes_to import *
+
+"""
+    intro to os module, focusing on
+    file processing.
+"""
+
+print(' ________________________________________')
+print('|   ____  _      _____ _                 |')
+print('|  |**_**| |    | ___ | |                |')
+print('| |**| |**| |  | |_ ||_|_|               |')
+print('| |**| |**| |   |_ |_ |                  |')
+print('| |**| |**| |     |_ | |      module___: |')
+print('| |**| |**| |   _   | | |                |')
+print('| |**|_|**| |  | |___| | |               |')
+print('|  |*****|_|    |_____|_|                |')
+print('|________________________________________|')
+print()
+print('The focus is to learn file processing with the os python module, ')
+print('Adding on as I go.')
+input('Press Enter to Continue: ')
+print('-----------------------')
+cwd = os.getcwd()
+dir_list = os.listdir()
+print('')
+print(f'The current working directory is: \n{cwd}')
+print('')
+print('The files present in this directory are:')
+print('')
+for i in dir_list:
+    print('||******  ' + i)
+
+print('-----------------------')
+print('')
+## utility functions:
+def rename(old_name, new_name):
+    """Ask client for the correct name
+    of the file to rename, follow by 
+    the new name.
+
+    Args:
+        old_name (str): file old name for a change.
+        new_name (str): the new name for the file.
+    """
+    # assert old_name in os.listdir, f'{old_name} not in CWD'
+    action = os.rename(old_name, new_name)
+    return action 
+
+print('OPTIONS: \n')
+print('0: show cwd files')
+print('1: rename a file.')
+print('2: remove a file.')
+print('3: make a new directory')
+print('4: remove a directory')
+print('5: change directory')
+print('6: looking for a file?: ')
+print('7: check size in bites')
+print('8: check last modifications date')
+print('666 to exit')
+print('...')
+print('')
+
+while True:
+
+    selection = int(input('please enter the selection number: '))
+
+    if selection == 0:
+        for i in os.listdir():
+            print('- '+i)
+
+    elif selection == 1:
+        print('lets change the name of the file')
+        old_name = input('Please write the old name to change: ')
+        new_name = input('And the new name please: ')
+        print('thanks, computing...')
+        rename(old_name=old_name, new_name=new_name)
+        for i in os.listdir():
+            print('* '+i)
+
+    elif selection == 2:
+        answer = input('are you sure? y/n')
+        answer = answer.lower()
+        if answer == 'y':
+            file = input('Enter correct file name: ')
+            os.remove(file)
+            print(os.listdir())
+
+    elif selection == 3:
+        name = input('Enter the name of the new directory: ')
+        os.mkdir(name)
+
+    elif selection == 4:
+        answer = input('are you sure? y/n')
+        answer = answer.lower()
+        if answer == 'y':
+            dir = input('Enter correct directory name: ')
+            os.rmdir(dir)
+            print(os.listdir())
+
+    elif selection == 5:
+        new_dir = input('Please enter the new path: ')
+        os.chdir(new_dir)
+        print(os.getcwd()) 
+    
+    elif selection == 6:
+        file_to_find = input('please enter name and extention of the file to see if exists, (*creating one with a name that excists may delete the data of the old one): ')
+        print(os.path.exists(file_to_find))
+        ## And its absolute path
+        print(os.path.abspath(file_to_find))
+
+    elif selection == 7:
+        location = input('Please enter path, and filename: ')
+        bytes = os.path.getsize(location)
+        result = HumanBytes.format(bytes)
+        print(result)
+
+    elif selection == 8:
+        location = input('Please enter path: ')
+        fecha = os.path.getmtime(location)
+        print(datetime.datetime.fromtimestamp(fecha))
+
+    elif selection == 666:
+        False
+        print('Gracias, Merci, thanks!!!')
+        exit()
+
+    else:
+        print('invalid option, thanks, bye and have a auspiciuos, benefitial and blissful mind!!')
+        exit()
